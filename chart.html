@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tradepto Chart</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-mode">
+
+  <nav class="navbar">
+  <div class="brand">Tradepto</div>
+
+ 
+
+  <div class="nav-icons">
+    
+    <button id="theme-toggle"></button>
+   
+    <div class="menu-toggle" id="menu-toggle">☰</div>
+  </div>
+</nav>
+
+
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-close" id="sidebar-close">✖</div>
+  <ul>
+    <li><a href="#wallet">Wallet</a></li>
+    <li><a href="#market">Market</a></li>
+    <li><a href="#exchange">Exchange</a></li>
+    <li><a href="home.html">👤</a></li>
+    <li><button id="sidebar-theme-toggle">🌙</button></li>
+  </ul>
+</div>
+
+ 
+  <section class="coin-details">
+    <h2 id="coin-name">Loading...</h2>
+    <p>Price: <span id="coin-price">$0.00</span></p>
+    <p>24h Change: <span id="coin-change">0%</span></p>
+    <p>Market Cap: <span id="coin-marketcap">--</span></p>
+    <p>Volume: <span id="coin-volume">--</span></p>
+  </section>
+
+  
+  <section class="chart-section">
+    <div id="tradingview-widget"></div>
+  </section>
+
+ 
+  <section class="trading-panel">
+    <h3>Trading Options</h3>
+    <label>Stop Loss: <input type="number" id="stopLoss"></label>
+    <label>Take Profit: <input type="number" id="takeProfit"></label>
+    <label>Leverage:
+      <select id="leverage">
+        <option value="1x">1x</option>
+        <option value="5x">5x</option>
+        <option value="10x">10x</option>
+      </select>
+    </label>
+    <div class="trade-buttons">
+      <button class="buy-btn">Buy</button>
+      <button class="sell-btn">Sell</button>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Tradepto. All rights reserved.</p>
+  </footer>
+
+  <script src="chart.js"></script>
+  <Script src="script.js"></Script>
+</body>
+</html>
