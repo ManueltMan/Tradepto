@@ -1,65 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tradepto Chart</title>
+  <title>Chart | Tradepto</title>
+  <meta name="description" content="Live price, market stats and an interactive chart for any coin on Tradepto.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23f5c518'/%3E%3Ctext x='16' y='23' font-size='20' font-weight='700' text-anchor='middle' fill='%23111' font-family='Arial'%3ET%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script src="common.js"></script>
 </head>
-<body class="dark-mode">
+<body>
 
-  <nav class="navbar">
-  <div class="brand">Tradepto</div>
+<a class="skip-link" href="#main">Skip to content</a>
 
- 
-
-  <div class="nav-icons">
-
-      <a href="index.html">Home</a>
-    
+<header class="navbar">
+  <div class="nav-inner">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">T</span>Tradepto</a>
+    <nav aria-label="Main">
+      <ul class="nav-links">
+        <li><a href="index.html#wallet">Wallet</a></li>
+        <li><a href="index.html#market">Market</a></li>
+        <li><a href="index.html#exchange">Exchange</a></li>
+        <li><a href="#">Profile</a></li>
+      </ul>
+    </nav>
+    <div class="nav-icons">
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch theme"></button>
+      <button class="icon-btn menu-toggle" id="menu-toggle" type="button" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false">☰</button>
+    </div>
   </div>
-</nav>
+</header>
 
+<div class="backdrop" id="backdrop"></div>
+<aside class="sidebar" id="sidebar" aria-label="Site menu">
+  <div class="sidebar-head">
+    <span>Menu</span>
+    <button class="icon-btn" id="sidebar-close" type="button" aria-label="Close menu">✕</button>
+  </div>
+  <ul class="sidebar-links">
+    <li><a href="index.html#wallet"><span aria-hidden="true">💼</span> Wallet</a></li>
+    <li><a href="index.html#market"><span aria-hidden="true">📈</span> Market</a></li>
+    <li><a href="index.html#exchange"><span aria-hidden="true">🔄</span> Exchange</a></li>
+    <li><a href="profile.html"><span aria-hidden="true">👤</span> Profile</a></li>
+  </ul>
+  <button class="btn btn-ghost" type="button" data-theme-toggle data-theme-label></button>
+</aside>
 
+<main id="main" class="container">
 
+  <a class="back-link" href="index.html#market">← Back to market</a>
 
- 
-  <section class="coin-details">
-    <h2 id="coin-name">Loading...</h2>
-    <p>Price: <span id="coin-price">$0.00</span></p>
-    <p>24h Change: <span id="coin-change">0%</span></p>
-    <p>Market Cap: <span id="coin-marketcap">--</span></p>
-    <p>Volume: <span id="coin-volume">--</span></p>
-  </section>
+  <section class="card coin-details" aria-label="Coin details">
+    <div class="coin-header">
+      <img id="coin-image" class="coin-image" alt="" width="56" height="56" hidden>
+      <div>
+        <h1 id="coin-name">Loading...</h1>
+        <p class="muted small" id="coin-rank"></p>
+      </div>
+      <div class="coin-header-price">
+        <div class="price-big" id="coin-price">$0.00</div>
+        <span class="pill flat" id="coin-change">—</span>
+      </div>
+    </div>
 
-  
-  <section class="chart-section">
-    <div id="tradingview-widget"></div>
-  </section>
+    <div class="stats">
+      <div class="stat"><span class="stat-label">Market cap</span><strong id="coin-marketcap">--</strong></div>
+      <div class="stat"><span class="stat-label">24h volume</span><strong id="coin-volume">--</strong></div>
+      <div class="stat"><span class="stat-label">24h high</span><strong id="coin-high">--</strong></div>
+      <div class="stat"><span class="stat-label">24h low</span><strong id="coin-low">--</strong></div>
+    </div>
 
- 
-  <section class="trading-panel">
-    <h3>Trading Options</h3>
-    <label>Stop Loss: <input type="number" id="stopLoss"></label>
-    <label>Take Profit: <input type="number" id="takeProfit"></label>
-    <label>Leverage:
-      <select id="leverage">
-        <option value="1x">1x</option>
-        <option value="5x">5x</option>
-        <option value="10x">10x</option>
-      </select>
-    </label>
-    <div class="trade-buttons">
-      <button class="buy-btn">Buy</button>
-      <button class="sell-btn">Sell</button>
+    <div id="coin-error" class="state-msg" role="alert" hidden>
+      <p id="coin-error-text"></p>
+      <button class="btn btn-primary" type="button" id="coin-retry">Try again</button>
     </div>
   </section>
 
-  <footer>
-    <p>© 2025 Tradepto. All rights reserved.</p>
-  </footer>
+  <div class="trade-layout">
+    <section class="card chart-card" aria-label="Price chart">
+      <div id="tradingview-widget"></div>
+    </section>
 
-  <script src="chart.js"></script>
-  <Script src="script.js"></Script>
+    <section class="card trading-panel" aria-labelledby="trade-title">
+      <h2 id="trade-title">Trading options <span class="badge">Demo</span></h2>
+
+      <div class="field">
+        <label for="stopLoss">Stop loss (USD)</label>
+        <input class="input" type="number" id="stopLoss" min="0" step="any" inputmode="decimal" placeholder="Optional">
+      </div>
+      <div class="field">
+        <label for="takeProfit">Take profit (USD)</label>
+        <input class="input" type="number" id="takeProfit" min="0" step="any" inputmode="decimal" placeholder="Optional">
+      </div>
+      <div class="field">
+        <label for="leverage">Leverage</label>
+        <select class="select" id="leverage">
+          <option value="1x">1x</option>
+          <option value="5x">5x</option>
+          <option value="10x">10x</option>
+        </select>
+      </div>
+
+      <div class="trade-buttons">
+        <button class="btn btn-buy buy-btn" type="button">Buy</button>
+        <button class="btn btn-sell sell-btn" type="button">Sell</button>
+      </div>
+      <p class="disclaimer">Demo only: no real orders are placed. Charts by TradingView; some coins may not be listed on the chart's exchange.</p>
+    </section>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <p>&copy; <span data-year>2025</span> Tradepto. All rights reserved.</p>
+  <p>Market data by CoinGecko. Demo project: not financial advice.</p>
+</footer>
+
+<script src="chart.js"></script>
 </body>
 </html>

@@ -1,113 +1,161 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tradepto Dashboard</title>
+  <title>Tradepto | Crypto Dashboard</title>
+  <meta name="description" content="Track live crypto prices, explore the market and convert between coins on Tradepto.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23f5c518'/%3E%3Ctext x='16' y='23' font-size='20' font-weight='700' text-anchor='middle' fill='%23111' font-family='Arial'%3ET%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script src="common.js"></script>
 </head>
-<body class="dark-mode">
+<body>
 
-  <nav class="navbar">
-  <div class="brand">Tradepto</div>
+<a class="skip-link" href="#main">Skip to content</a>
 
- 
-
-  <div class="nav-icons">
-    
-    <button id="theme-toggle"></button>
-
-    <div class="menu-toggle" id="menu-toggle">☰</div>
+<header class="navbar">
+  <div class="nav-inner">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">T</span>Tradepto</a>
+    <nav aria-label="Main">
+      <ul class="nav-links">
+        <li><a href="#wallet">Wallet</a></li>
+        <li><a href="#market">Market</a></li>
+        <li><a href="#exchange">Exchange</a></li>
+        <li><a href="profile.html">Profile</a></li>
+      </ul>
+    </nav>
+    <div class="nav-icons">
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch theme"></button>
+      <button class="icon-btn menu-toggle" id="menu-toggle" type="button" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false">☰</button>
+    </div>
   </div>
-</nav>
+</header>
 
-
-<div class="sidebar" id="sidebar">
-  <div class="sidebar-close" id="sidebar-close">✖</div>
-  <ul>
-    <li><a href="#wallet">Wallet</a></li>
-    <li><a href="#market">Market</a></li>
-    <li><a href="#exchange">Exchange</a></li>
-    <li><a href="home.html">👤</a></li>
-    <li><button id="sidebar-theme-toggle">🌙</button></li>
+<div class="backdrop" id="backdrop"></div>
+<aside class="sidebar" id="sidebar" aria-label="Site menu">
+  <div class="sidebar-head">
+    <span>Menu</span>
+    <button class="icon-btn" id="sidebar-close" type="button" aria-label="Close menu">✕</button>
+  </div>
+  <ul class="sidebar-links">
+    <li><a href="#wallet"><span aria-hidden="true">💼</span> Wallet</a></li>
+    <li><a href="#market"><span aria-hidden="true">📈</span> Market</a></li>
+    <li><a href="#exchange"><span aria-hidden="true">🔄</span> Exchange</a></li>
+    <li><a href="#"><span aria-hidden="true">👤</span> Profile</a></li>
   </ul>
-</div>
+  <button class="btn btn-ghost" type="button" data-theme-toggle data-theme-label></button>
+</aside>
 
+<main id="main" class="container">
 
-
-  
-  <section class="search-section">
-    <input type="text" id="coin-search" placeholder="Search for a coin...">
-    <div id="search-results" class="search-results"></div>
+  <section class="page-head">
+    <h1>Crypto dashboard</h1>
+    <p class="muted">Live prices, a demo wallet and a quick exchange calculator.</p>
   </section>
 
-
-  <section class="wallet-section" id="wallet">
-    <h2>Wallet</h2>
-    <div class="wallet-balance">
-      Balance: <span id="wallet-amount">1.234 BTC</span>
-      <select id="wallet-coin">
-        <option value="bitcoin">BTC</option>
-        <option value="ethereum">ETH</option>
-        <option value="tether">USDT</option>
-      </select>
-    </div>
-    <div class="wallet-buttons">
-      <button>Deposit</button>
-      <button>Withdraw</button>
+  <section class="search-section" aria-label="Search coins">
+    <div class="search">
+      <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+      <input class="input" type="search" id="coin-search" placeholder="Search for a coin..." aria-label="Search for a coin" autocomplete="off">
+      <div id="search-results" class="search-results" hidden></div>
     </div>
   </section>
 
-  
-  <section class="market-section" id="market">
-    <h2>Market</h2>
-    <div class="market-tabs">
-      <button class="tab active" data-tab="favourites">Favourites</button>
-      <button class="tab" data-tab="hot">Hot</button>
-      <button class="tab" data-tab="gainers">Gainers</button>
-      <button class="tab" data-tab="losers">Losers</button>
-      <button class="tab" data-tab="new">New</button>
-    </div>
-    <div id="market-list" class="coin-list"></div>
-  </section>
-
-  
-  <section class="exchange-section" id="exchange">
-    <h2>Exchange Calculator</h2>
-    <div class="exchange-box">
-      <div>
-        <label>From:</label>
-        <input type="number" id="from-amount" value="1">
-        <select id="from-coin">
+  <div class="grid-2">
+    <section class="card wallet-card" id="wallet" aria-labelledby="wallet-title">
+      <h2 id="wallet-title">Wallet <span class="badge">Demo</span></h2>
+      <div class="balance">
+        <div class="balance-amount" id="wallet-amount">1.234 BTC</div>
+        <div class="balance-usd" id="wallet-usd">≈ —</div>
+      </div>
+      <div class="field">
+        <label for="wallet-coin">Asset</label>
+        <select class="select" id="wallet-coin">
           <option value="bitcoin">BTC</option>
           <option value="ethereum">ETH</option>
           <option value="tether">USDT</option>
         </select>
       </div>
-      <div>
-        <label>To:</label>
-        <select id="to-coin">
+      <div class="btn-row">
+        <button class="btn btn-primary" type="button" id="deposit-btn">Deposit</button>
+        <button class="btn btn-ghost" type="button" id="withdraw-btn">Withdraw</button>
+      </div>
+    </section>
+
+    <section class="card analytics-section" aria-labelledby="analytics-title">
+      <h2 id="analytics-title">Market snapshot</h2>
+      <p class="muted small">Top 50 coins by market cap, last 24 hours.</p>
+      <div class="mood">
+        <div class="mood-head"><span>Market mood</span><strong id="mood-label">—</strong></div>
+        <div class="mood-bar" aria-hidden="true"><span id="mood-fill"></span></div>
+        <p class="muted small" id="mood-detail">Loading…</p>
+      </div>
+      <dl class="snapshot">
+        <div><dt>Top gainer</dt><dd id="top-gainer">—</dd></div>
+        <div><dt>Top loser</dt><dd id="top-loser">—</dd></div>
+        <div><dt>Highest volume</dt><dd id="top-volume">—</dd></div>
+      </dl>
+    </section>
+  </div>
+
+  <section class="market-section" id="market" aria-labelledby="market-title">
+    <div class="section-head">
+      <h2 id="market-title">Market</h2>
+      <span class="muted small" id="last-updated"></span>
+    </div>
+    <div class="market-tabs" role="group" aria-label="Market filters">
+      <button class="tab" type="button" data-tab="all" aria-pressed="true">All</button>
+      <button class="tab" type="button" data-tab="favourites" aria-pressed="false">Favourites</button>
+      <button class="tab" type="button" data-tab="hot" aria-pressed="false">Hot</button>
+      <button class="tab" type="button" data-tab="gainers" aria-pressed="false">Gainers</button>
+      <button class="tab" type="button" data-tab="losers" aria-pressed="false">Losers</button>
+    </div>
+    <div id="market-list" class="coin-list" aria-live="polite">
+      <noscript><p class="state-msg">Please enable JavaScript to see live prices.</p></noscript>
+    </div>
+  </section>
+
+  <section class="card exchange-section" id="exchange" aria-labelledby="exchange-title">
+    <h2 id="exchange-title">Exchange calculator</h2>
+    <div class="exchange-grid">
+      <div class="field">
+        <label for="from-amount">From</label>
+        <div class="input-group">
+          <input class="input" type="number" id="from-amount" value="1" min="0" step="any" inputmode="decimal">
+          <select class="select" id="from-coin" aria-label="From coin">
+            <option value="bitcoin">BTC</option>
+            <option value="ethereum">ETH</option>
+            <option value="tether">USDT</option>
+          </select>
+        </div>
+      </div>
+      <button class="icon-btn swap-btn" id="swap-coins" type="button" aria-label="Swap coins">⇄</button>
+      <div class="field">
+        <label for="to-coin">To</label>
+        <select class="select" id="to-coin">
           <option value="tether">USDT</option>
           <option value="bitcoin">BTC</option>
           <option value="ethereum">ETH</option>
         </select>
-        <p>Result: <span id="exchange-result">0</span></p>
       </div>
     </div>
-  </section>
-
-  
-  <section class="analytics-section">
-    <h2>Analytics</h2>
-    <div class="analytics-box">
-      <p>Price Alerts, News, Market Sentiment...</p>
+    <div class="exchange-result" aria-live="polite">
+      <span class="muted small">You get</span>
+      <span class="value"><span id="exchange-result">0</span> <span id="to-symbol">USDT</span></span>
+      <p class="muted small" id="exchange-rate">Indicative rate based on USD prices, before any fees.</p>
     </div>
   </section>
 
-  <footer>
-    <p>© 2025 Tradepto. All rights reserved.</p>
-  </footer>
+</main>
 
-  <script src="script.js"></script>
+<footer class="site-footer">
+  <p>&copy; <span data-year>2025</span> Tradepto. All rights reserved.</p>
+  <p>Market data by CoinGecko. Demo project: not financial advice.</p>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
